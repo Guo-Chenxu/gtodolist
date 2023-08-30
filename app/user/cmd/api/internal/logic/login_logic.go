@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"github.com/jinzhu/copier"
 	"gtodolist/app/user/cmd/rpc/pb"
 
@@ -31,6 +32,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		Password: req.Password,
 	})
 
+	fmt.Println(loginResp)
 	if err != nil {
 		return &types.LoginResp{
 			Status:  int(loginResp.Status),
@@ -39,6 +41,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		}, err
 	}
 
+	resp = &types.LoginResp{}
 	_ = copier.Copy(resp, loginResp)
 	return resp, err
 }

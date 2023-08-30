@@ -2,8 +2,8 @@
 package types
 
 type RegisterReq struct {
-	Username string `json:"user_name"`
-	Password string `json:"password"`
+	Username string `form:"user_name"`
+	Password string `form:"password"`
 }
 
 type RegisterResp struct {
@@ -25,8 +25,8 @@ type Data struct {
 }
 
 type LoginReq struct {
-	Username string `json:"user_name"`
-	Password string `json:"password"`
+	Username string `form:"user_name"`
+	Password string `form:"password"`
 }
 
 type LoginResp struct {

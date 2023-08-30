@@ -31,6 +31,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		Password: req.Password,
 	})
 
+	resp = &types.RegisterResp{}
 	_ = copier.Copy(resp, registerResp)
 	return resp, err
 }

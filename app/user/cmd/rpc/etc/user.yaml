@@ -24,6 +24,7 @@ Mysql:
   Password: "101325"
   MaxIdleConns: 10
   MaxOpenConns: 10
+  LogZap: false
   Config: parseTime=True&loc=Local
 
 Cache:

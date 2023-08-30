@@ -11,8 +11,8 @@ info(
 // register
 type (
 	RegisterReq {
-		Username string `json:"user_name"`
-		Password string `json:"password"`
+		Username string `form:"user_name"`
+		Password string `form:"password"`
 	}
 
 	RegisterResp {
@@ -38,8 +38,8 @@ type (
 	}
 
 	LoginReq {
-		Username string `json:"user_name"`
-		Password string `json:"password"`
+		Username string `form:"user_name"`
+		Password string `form:"password"`
 	}
 
 	LoginResp {

@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"database/sql"
+	"github.com/pkg/errors"
 	"gtodolist/app/user/model"
 	"gtodolist/common/tool"
 	"gtodolist/common/vo"
@@ -51,7 +52,7 @@ func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterResp, error) {
 			Data:    "",
 			Message: vo.ErrUserAlreadyRegisterError.GetErrMsg(),
 			Error:   "",
-		}, err
+		}, errors.Wrap(vo.ErrUserAlreadyRegisterError, "用户名已存在")
 	}
 
 	// 添加用户
