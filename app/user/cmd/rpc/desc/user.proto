@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "./pb";
+
+// 定义消息类型
+message RegisterReq {
+  string Username = 1;
+  string Password = 2;
+}
+
+message RegisterResp {
+  int32 Status = 1;
+  string Data = 2;
+  string Message = 3;
+  string Error = 4;
+}
+
+message LoginReq {
+  string Username = 1;
+  string Password = 2;
+}
+
+message User {
+  int64 Id = 1;
+  string Username = 2;
+  int64 create_at = 3;
+}
+
+message Data {
+  User User = 1;
+  string Token = 2;
+}
+
+message LoginResp {
+  int32 Status = 1;
+  Data Data = 2;
+  string Message = 3;
+  string Error = 4;
+}
+
+// 定义服务
+service uerrpc {
+  rpc Register(RegisterReq) returns(RegisterResp);
+  rpc Login(LoginReq) returns(LoginResp);
+}

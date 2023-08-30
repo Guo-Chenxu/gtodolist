@@ -20,4 +20,3 @@ CREATE TABLE `user`
   ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
-

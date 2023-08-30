@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info(
+    title: "User Register API"
+    desc: "API for user register"
+    author: "GuoChenxu"
+    email: "2269409349@qq.com"
+    version: "1.0"
+)
+
+type (
+    RegisterReq {
+        Username string `json:"user_name"`
+        Password string `json:"password"`
+    }
+
+    RegisterResp {
+        Status int `json:"status"`
+        Data string `json:"data"`
+        Message string `json:"msg"`
+        Error string `json:"error"`
+    }
+)
+
+@server(
+    prefix: api/v1/user
+)
+
+service user {
+    @doc "register"
+    @handler register
+    post /register (RegisterReq) returns (RegisterResp)
+}

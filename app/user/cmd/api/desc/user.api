@@ -1,0 +1,12 @@
+syntax = "v1"
+
+info(
+	title: "User API"
+	desc: "API for user"
+	author: "GuoChenxu"
+	email: "2269409349@qq.com"
+	version: "1.0"
+)
+
+import "./login.api"
+import "./register.api"

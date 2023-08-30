@@ -1,0 +1,46 @@
+syntax = "v1"
+
+info(
+    title: "User Login API"
+    desc: "API for user login"
+    author: "GuoChenxu"
+    email: "2269409349@qq.com"
+    version: "1.0"
+)
+
+type (
+    User {
+        Id int64 `json:"id"`
+        Username string `json:"user_name"`
+        CreateAt int64 `json:"create_at"`
+    }
+
+    Data {
+        User User `json:"user"`
+        Token string `json:"token"`
+    }
+
+    LoginReq {
+        Username string `json:"user_name"`
+        Password string `json:"password"`
+    }
+
+    LoginResp {
+        Status int `json:"status"`
+        Data Data `json:"data"`
+        Message string `json:"msg"`
+        Error string `json:"error"`
+    }
+)
+
+@server(
+    prefix: api/v1/user
+    jwt: JwtAuth
+    middleware: LoginMiddleware
+)
+
+service user {
+    @doc "login"
+    @handler login
+    post /login (LoginReq) returns (LoginResp)
+}
