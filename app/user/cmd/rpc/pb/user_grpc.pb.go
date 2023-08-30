@@ -19,126 +19,163 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Uerrpc_Register_FullMethodName = "/pb.uerrpc/Register"
-	Uerrpc_Login_FullMethodName    = "/pb.uerrpc/Login"
+	Userrpc_Register_FullMethodName      = "/pb.userrpc/Register"
+	Userrpc_Login_FullMethodName         = "/pb.userrpc/Login"
+	Userrpc_GenerateToken_FullMethodName = "/pb.userrpc/GenerateToken"
 )
 
-// UerrpcClient is the client API for Uerrpc service.
+// UserrpcClient is the client API for Userrpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UerrpcClient interface {
+type UserrpcClient interface {
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
 }
 
-type uerrpcClient struct {
+type userrpcClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUerrpcClient(cc grpc.ClientConnInterface) UerrpcClient {
-	return &uerrpcClient{cc}
+func NewUserrpcClient(cc grpc.ClientConnInterface) UserrpcClient {
+	return &userrpcClient{cc}
 }
 
-func (c *uerrpcClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
+func (c *userrpcClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
 	out := new(RegisterResp)
-	err := c.cc.Invoke(ctx, Uerrpc_Register_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Userrpc_Register_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *uerrpcClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+func (c *userrpcClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, Uerrpc_Login_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Userrpc_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UerrpcServer is the server API for Uerrpc service.
-// All implementations must embed UnimplementedUerrpcServer
+func (c *userrpcClient) GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error) {
+	out := new(GenerateTokenResp)
+	err := c.cc.Invoke(ctx, Userrpc_GenerateToken_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserrpcServer is the server API for Userrpc service.
+// All implementations must embed UnimplementedUserrpcServer
 // for forward compatibility
-type UerrpcServer interface {
+type UserrpcServer interface {
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
 	Login(context.Context, *LoginReq) (*LoginResp, error)
-	mustEmbedUnimplementedUerrpcServer()
+	GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error)
+	mustEmbedUnimplementedUserrpcServer()
 }
 
-// UnimplementedUerrpcServer must be embedded to have forward compatible implementations.
-type UnimplementedUerrpcServer struct {
+// UnimplementedUserrpcServer must be embedded to have forward compatible implementations.
+type UnimplementedUserrpcServer struct {
 }
 
-func (UnimplementedUerrpcServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
+func (UnimplementedUserrpcServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUerrpcServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
+func (UnimplementedUserrpcServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUerrpcServer) mustEmbedUnimplementedUerrpcServer() {}
+func (UnimplementedUserrpcServer) GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateToken not implemented")
+}
+func (UnimplementedUserrpcServer) mustEmbedUnimplementedUserrpcServer() {}
 
-// UnsafeUerrpcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UerrpcServer will
+// UnsafeUserrpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserrpcServer will
 // result in compilation errors.
-type UnsafeUerrpcServer interface {
-	mustEmbedUnimplementedUerrpcServer()
+type UnsafeUserrpcServer interface {
+	mustEmbedUnimplementedUserrpcServer()
 }
 
-func RegisterUerrpcServer(s grpc.ServiceRegistrar, srv UerrpcServer) {
-	s.RegisterService(&Uerrpc_ServiceDesc, srv)
+func RegisterUserrpcServer(s grpc.ServiceRegistrar, srv UserrpcServer) {
+	s.RegisterService(&Userrpc_ServiceDesc, srv)
 }
 
-func _Uerrpc_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Userrpc_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegisterReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UerrpcServer).Register(ctx, in)
+		return srv.(UserrpcServer).Register(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Uerrpc_Register_FullMethodName,
+		FullMethod: Userrpc_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UerrpcServer).Register(ctx, req.(*RegisterReq))
+		return srv.(UserrpcServer).Register(ctx, req.(*RegisterReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Uerrpc_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Userrpc_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LoginReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UerrpcServer).Login(ctx, in)
+		return srv.(UserrpcServer).Login(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Uerrpc_Login_FullMethodName,
+		FullMethod: Userrpc_Login_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UerrpcServer).Login(ctx, req.(*LoginReq))
+		return srv.(UserrpcServer).Login(ctx, req.(*LoginReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Uerrpc_ServiceDesc is the grpc.ServiceDesc for Uerrpc service.
+func _Userrpc_GenerateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserrpcServer).GenerateToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Userrpc_GenerateToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserrpcServer).GenerateToken(ctx, req.(*GenerateTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Userrpc_ServiceDesc is the grpc.ServiceDesc for Userrpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Uerrpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.uerrpc",
-	HandlerType: (*UerrpcServer)(nil),
+var Userrpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.userrpc",
+	HandlerType: (*UserrpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Register",
-			Handler:    _Uerrpc_Register_Handler,
+			Handler:    _Userrpc_Register_Handler,
 		},
 		{
 			MethodName: "Login",
-			Handler:    _Uerrpc_Login_Handler,
+			Handler:    _Userrpc_Login_Handler,
+		},
+		{
+			MethodName: "GenerateToken",
+			Handler:    _Userrpc_GenerateToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

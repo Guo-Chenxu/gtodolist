@@ -39,8 +39,19 @@ message LoginResp {
   string Error = 4;
 }
 
+message GenerateTokenReq {
+  int64 userId = 1;
+}
+
+message GenerateTokenResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
 // 定义服务
-service uerrpc {
+service userrpc {
   rpc Register(RegisterReq) returns(RegisterResp);
   rpc Login(LoginReq) returns(LoginResp);
+  rpc GenerateToken(GenerateTokenReq) returns(GenerateTokenResp);
 }

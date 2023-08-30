@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"gtodolist/app/user/cmd/rpc/pb"
 
 	"gtodolist/app/user/cmd/api/internal/svc"
 	"gtodolist/app/user/cmd/api/internal/types"
@@ -24,7 +26,19 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
-	// todo: add your logic here and delete this line
+	loginResp, err := l.svcCtx.UserRpcClient.Login(l.ctx, &pb.LoginReq{
+		Username: req.Username,
+		Password: req.Password,
+	})
 
-	return
+	if err != nil {
+		return &types.LoginResp{
+			Status:  int(loginResp.Status),
+			Message: loginResp.Message,
+			Error:   err.Error(),
+		}, err
+	}
+
+	_ = copier.Copy(resp, loginResp)
+	return resp, err
 }

@@ -8,5 +8,60 @@ info(
 	version: "1.0"
 )
 
-import "./login.api"
-import "./register.api"
+// register
+type (
+	RegisterReq {
+		Username string `json:"user_name"`
+		Password string `json:"password"`
+	}
+
+	RegisterResp {
+		Status  int    `json:"status"`
+		Data    string `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// login
+
+type (
+	User {
+		Id       int64  `json:"id"`
+		Username string `json:"user_name"`
+		CreateAt int64  `json:"create_at"`
+	}
+
+	Data {
+		User  User   `json:"user"`
+		Token string `json:"token"`
+	}
+
+	LoginReq {
+		Username string `json:"user_name"`
+		Password string `json:"password"`
+	}
+
+	LoginResp {
+		Status  int    `json:"status"`
+		Data    Data   `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// api
+
+@server(
+	prefix: api/v1/user
+)
+
+service user {
+	@doc "register"
+	@handler register
+	post /register (RegisterReq) returns (RegisterResp)
+
+	@doc "login"
+	@handler login
+	post /login (LoginReq) returns (LoginResp)
+}

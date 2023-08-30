@@ -1,3 +1,17 @@
 Name: user
 Host: 0.0.0.0
-Port: 8888
+Port: 22301
+
+Log:
+  Encoding: plain
+
+UserRpcConfig:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+# jwt验证
+JwtAuth:
+  AccessSecret: gtodolist
+  AccessExpire: 31536000

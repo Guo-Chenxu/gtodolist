@@ -2,24 +2,24 @@ package dyerr
 
 const (
 	//状态码
-	OK           uint32 = 0
-	NO_REQUEST   uint32 = 400
-	WRONG_SERVER uint32 = 500
+	OK           int32 = 200
+	NO_REQUEST   int32 = 400
+	WRONG_SERVER int32 = 500
 	//状态信息
 	SUCCESS string = "成功执行！！！！"
 
 	//服务错误码
-	SERVER_COMMON_ERROR uint32 = 100001
+	SERVER_COMMON_ERROR int32 = 100001
 	//请求参数错误
-	REUQEST_PARAM_ERROR uint32 = 100002
+	REUQEST_PARAM_ERROR int32 = 100002
 	//token过期
-	TOKEN_EXPIRE_ERROR uint32 = 100003
+	TOKEN_EXPIRE_ERROR int32 = 100003
 	//token生成错误
-	TOKEN_GENERATE_ERROR uint32 = 100004
+	TOKEN_GENERATE_ERROR int32 = 100004
 	//数据库错误
-	DB_ERROR uint32 = 100005
+	DB_ERROR int32 = 100005
 	//数据库更新错误
-	DB_UPDATE_AFFECTED_ZERO_ERROR uint32 = 100006
+	DB_UPDATE_AFFECTED_ZERO_ERROR int32 = 100006
 )
 
 var (

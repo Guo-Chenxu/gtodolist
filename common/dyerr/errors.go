@@ -7,12 +7,12 @@ import "fmt"
 */
 
 type CodeError struct {
-	errCode uint32
+	errCode int32
 	errMsg  string
 }
 
 // 返回给前端的错误码
-func (e *CodeError) GetErrCode() uint32 {
+func (e *CodeError) GetErrCode() int32 {
 	return e.errCode
 }
 

@@ -2,9 +2,10 @@ package logic
 
 import (
 	"context"
-
+	"github.com/jinzhu/copier"
 	"gtodolist/app/user/cmd/api/internal/svc"
 	"gtodolist/app/user/cmd/api/internal/types"
+	"gtodolist/app/user/cmd/rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +25,12 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
-	// todo: add your logic here and delete this line
+	// 向 rpc 发送请求
+	registerResp, err := l.svcCtx.UserRpcClient.Register(l.ctx, &pb.RegisterReq{
+		Username: req.Username,
+		Password: req.Password,
+	})
 
-	return
+	_ = copier.Copy(resp, registerResp)
+	return resp, err
 }
