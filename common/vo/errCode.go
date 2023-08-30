@@ -1,4 +1,4 @@
-package dyerr
+package vo
 
 const (
 	//状态码
