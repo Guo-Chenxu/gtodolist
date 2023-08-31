@@ -23,13 +23,13 @@ const (
 )
 
 var (
-	ErrGenerateTokenError       = NewErrMsg("生成token失败")
-	ErrUsernamePwdError         = NewErrMsg("账号或密码不正确")
-	ErrUserNoExistsError        = NewErrMsg("用户不存在")
-	ErrUserAlreadyRegisterError = NewErrMsg("该用户名已被注册")
+	ErrGenerateTokenError       = NewErrMsg("生成token失败", NO_REQUEST)
+	ErrUsernamePwdError         = NewErrMsg("账号或密码不正确", NO_REQUEST)
+	ErrUserNoExistsError        = NewErrMsg("用户不存在", NO_REQUEST)
+	ErrUserAlreadyRegisterError = NewErrMsg("该用户名已被注册", NO_REQUEST)
 	ErrDBerror                  = NewErrMsg("数据库错误")
 	ErrServerCommonError        = NewErrMsg("服务器请求错误")
-	ErrRequestParamError        = NewErrMsg("请求参数错误")
+	ErrRequestParamError        = NewErrMsg("请求参数错误", NO_REQUEST)
 	ErrTokenExpireError         = NewErrMsg("Token已经过期")
 	ErrUpdateAffectedZeroError  = NewErrMsg("数据库更新错误")
 )

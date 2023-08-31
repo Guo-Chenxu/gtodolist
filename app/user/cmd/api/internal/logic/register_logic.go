@@ -6,6 +6,7 @@ import (
 	"gtodolist/app/user/cmd/api/internal/svc"
 	"gtodolist/app/user/cmd/api/internal/types"
 	"gtodolist/app/user/cmd/rpc/pb"
+	"gtodolist/common/vo"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,6 +31,16 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		Username: req.Username,
 		Password: req.Password,
 	})
+
+	// 出现错误
+	if err != nil {
+		return &types.RegisterResp{
+			Status:  int(vo.ErrRequestParamError.GetErrCode()),
+			Data:    vo.ErrRequestParamError.GetErrMsg(),
+			Message: err.Error(),
+			Error:   err.Error(),
+		}, nil
+	}
 
 	resp = &types.RegisterResp{}
 	_ = copier.Copy(resp, registerResp)

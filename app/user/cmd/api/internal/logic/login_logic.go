@@ -2,9 +2,9 @@ package logic
 
 import (
 	"context"
-	"fmt"
 	"github.com/jinzhu/copier"
 	"gtodolist/app/user/cmd/rpc/pb"
+	"gtodolist/common/vo"
 
 	"gtodolist/app/user/cmd/api/internal/svc"
 	"gtodolist/app/user/cmd/api/internal/types"
@@ -32,13 +32,12 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		Password: req.Password,
 	})
 
-	fmt.Println(loginResp)
 	if err != nil {
 		return &types.LoginResp{
-			Status:  int(loginResp.Status),
-			Message: loginResp.Message,
+			Status:  int(vo.ErrRequestParamError.GetErrCode()),
+			Message: err.Error(),
 			Error:   err.Error(),
-		}, err
+		}, nil
 	}
 
 	resp = &types.LoginResp{}

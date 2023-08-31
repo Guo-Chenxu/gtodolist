@@ -37,22 +37,12 @@ func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterResp, error) {
 
 	// 查询出错
 	if err != nil && err != model.ErrNotFound {
-		return &pb.RegisterResp{
-			Status:  vo.ErrRequestParamError.GetErrCode(),
-			Data:    "",
-			Message: vo.ErrRequestParamError.GetErrMsg(),
-			Error:   err.Error(),
-		}, err
+		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
 	}
 
 	// 用户名已存在
 	if user != nil {
-		return &pb.RegisterResp{
-			Status:  vo.ErrUserAlreadyRegisterError.GetErrCode(),
-			Data:    "",
-			Message: vo.ErrUserAlreadyRegisterError.GetErrMsg(),
-			Error:   "",
-		}, errors.Wrap(vo.ErrUserAlreadyRegisterError, "用户名已存在")
+		return nil, errors.Wrap(vo.ErrUserAlreadyRegisterError, "用户名已存在")
 	}
 
 	// 添加用户
@@ -73,12 +63,7 @@ func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterResp, error) {
 
 	// 注册失败
 	if err != nil {
-		return &pb.RegisterResp{
-			Status:  vo.ErrDBerror.GetErrCode(),
-			Data:    "",
-			Message: vo.ErrDBerror.GetErrMsg(),
-			Error:   err.Error(),
-		}, err
+		return nil, errors.Wrap(vo.ErrDBerror, "数据库插入出错")
 	}
 
 	return &pb.RegisterResp{
