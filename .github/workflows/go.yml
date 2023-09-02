@@ -25,4 +25,6 @@ jobs:
       run: |
         go mod tidy 
         mkdir tmp
-        go build -o ./tmp/user-api ./app/user/cmd/api/user.go
+        go build -o ./temp/user-api ./app/user/cmd/api/user.go
+        go build -o ./temp/user-rpc ./app/user/cmd/rpc/user.go
+        scp -r ./temp ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/guochenxu/gtodolist/go/temp
