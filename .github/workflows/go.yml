@@ -22,4 +22,5 @@ jobs:
         go-version: '1.20'
 
     - name: Build
-      run: go mod tidy && go build -o user-api ./app/user/cmd/api/user.go
+    - run: go mod tidy
+    - run: go build -o user-api ./app/user/cmd/api/user.go
