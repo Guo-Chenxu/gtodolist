@@ -37,9 +37,7 @@ jobs:
         pass: ${{ secrets.PASSWORD }}
         first_ssh: |
           cd /home/guochenxu/gtodolist/go
-          if [ -d "./temp" ]; then
-            rm -r ./temp
-          fi
+          if [ -d "./temp" ]; then rm -r ./temp/; fi
           mkdir ./temp
         scp: |
           './temp/*' => /home/guochenxu/gtodolist/go/temp
