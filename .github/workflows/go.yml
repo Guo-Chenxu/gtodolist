@@ -29,12 +29,18 @@ jobs:
         go build -o ./temp/user-rpc ./app/user/cmd/rpc/user.go
     
     - name: Deploy To Server
-      uses: hengkx/ssh-deploy@v1.0.1
+      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
       with:
-        HOST: ${{ secrets.HOST }} 
-        USERNAME: ${{ secrets.USERNAME }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        PORT: ${{ secrets.PORT }}
-        SOURCE: './temp'
-        TARGET: '/home/guochenxu/gtodolist/go/temp'
-        AFTER_COMMAND: 'cd /home/guochenxu/gtodolist/go && ./start.sh'
+        host: ${{ secrets.HOST }} 
+        port: ${{ secrets.PORT }}
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        first_ssh: |
+          cd /home/guochenxu/gtodolist/go
+          mkdir temp
+        scp: |
+          './temp/*' => /home/guochenxu/gtodolist/go/temp
+        last_ssh: |
+          cd /home/guochenxu/gtodolist/go
+          ls
+          ./start.sh
