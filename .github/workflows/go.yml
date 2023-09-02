@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -27,4 +27,17 @@ jobs:
         mkdir tmp
         go build -o ./temp/user-api ./app/user/cmd/api/user.go
         go build -o ./temp/user-rpc ./app/user/cmd/rpc/user.go
-        scp -r ./temp ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/guochenxu/gtodolist/go/temp
+    
+    - name: Deploy To Server
+      uses: hengkx/ssh-deploy@v1.0.1
+      with:
+        HOST: ${{ secrets.HOST }} 
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        PORT: ${{ secrets.PORT }}
+        SOURCE: ./temp
+        TARGET: /home/guochenxu/gtodolist/go/temp
+        AFTER_COMMAND: |
+          cd /home/guochenxu/gtodolist/go
+          ./start.sh
+    
