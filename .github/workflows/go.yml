@@ -35,9 +35,6 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
         PORT: ${{ secrets.PORT }}
-        SOURCE: ./temp
-        TARGET: /home/guochenxu/gtodolist/go/temp
-        AFTER_COMMAND: |
-          cd /home/guochenxu/gtodolist/go
-          ./start.sh
-    
+        SOURCE: './temp'
+        TARGET: '/home/guochenxu/gtodolist/go/temp'
+        AFTER_COMMAND: 'cd /home/guochenxu/gtodolist/go && ./start.sh'
