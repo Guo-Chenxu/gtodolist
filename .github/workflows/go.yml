@@ -23,4 +23,6 @@ jobs:
 
     - name: Build
       run: |
-        go mod tidy && mkdir tmp && go build -o ./tmp/user-api ./app/user/cmd/api/user.go
+        go mod tidy 
+        mkdir tmp
+        go build -o ./tmp/user-api ./app/user/cmd/api/user.go
