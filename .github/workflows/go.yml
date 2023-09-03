@@ -25,8 +25,9 @@ jobs:
       run: |
         go mod tidy 
         mkdir tmp
-        go build -o ./temp/user-api ./app/user/cmd/api/user.go
-        go build -o ./temp/user-rpc ./app/user/cmd/rpc/user.go
+        go build -o ./cmd/user-api ./app/user/cmd/api/user.go
+        go build -o ./cmd/user-rpc ./app/user/cmd/rpc/user.go
+        tar -zcvf ./cmd.tar.gz ./cmd
     
     - name: Deploy To Server
       uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
@@ -37,11 +38,9 @@ jobs:
         pass: ${{ secrets.PASSWORD }}
         first_ssh: |
           cd /home/guochenxu/gtodolist/go
-          if [ -d "./temp" ]; then rm -r ./temp/; fi
-          mkdir ./temp
+          if [ -f "./cmd.tar.gz" ]; then rm ./cmd.tar.gz; fi
         scp: |
-          './temp/*' => /home/guochenxu/gtodolist/go/temp
+          './cmd.tar.gz' => /home/guochenxu/gtodolist/go/
         last_ssh: |
           cd /home/guochenxu/gtodolist/go
-          ls
           ./start.sh
