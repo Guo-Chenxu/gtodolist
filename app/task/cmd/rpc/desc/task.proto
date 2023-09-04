@@ -93,7 +93,7 @@ message DeleteResp{
 }
 
 // 定义服务
-service userrpc {
+service taskrpc {
   rpc CreateTask(CreateReq) returns(CreateReq);
   rpc ListTask(ListReq) returns (ListResp);
   rpc ShowTask(ShowReq) returns (ShowResp);

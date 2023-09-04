@@ -1,3 +1,17 @@
-Name: user
+Name: task
 Host: 0.0.0.0
-Port: 8888
+Port: 22302
+
+Log:
+  Encoding: plain
+
+TaskRpcConfig:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: task.rpc
+
+# jwt验证
+JwtAuth:
+  AccessSecret: gtodolist
+  AccessExpire: 31536000
