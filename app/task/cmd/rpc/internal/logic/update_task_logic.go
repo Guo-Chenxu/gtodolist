@@ -42,16 +42,16 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 	}
 
 	// 修改任务
-	// todo: 测试的时候看一下 uid 会不会被改掉
 	task = &model.Task{
-		Id:     task.Id,
-		Title:  in.Title,
-		Status: int64(in.Status),
+		Id:        task.Id,
+		CreatedAt: task.CreatedAt,
+		Uid:       task.Uid,
+		Title:     in.Title,
+		Status:    int64(in.Status),
 		Content: sql.NullString{
 			String: in.Content,
 			Valid:  true,
 		},
-		CreatedAt: task.CreatedAt,
 		StartTime: time.Now(),
 	}
 	err = l.svcCtx.TaskModel.Update(l.ctx, nil, task)
