@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"github.com/pkg/errors"
 	"gtodolist/app/task/model"
-	"gtodolist/common/ctxdata"
 	"gtodolist/common/vo"
 	"time"
 
@@ -30,10 +29,8 @@ func NewCreateTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
-	// todo: 这里的获取 id 可能有问题
-	uid := ctxdata.GetUidFromCtx(l.ctx)
 	task := &model.Task{
-		Uid:    uid,
+		Uid:    in.Uid,
 		Title:  in.Title,
 		Status: int64(in.Status),
 		Content: sql.NullString{

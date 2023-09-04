@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jinzhu/copier"
 	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/ctxdata"
 	"gtodolist/common/vo"
 	"strconv"
 
@@ -34,6 +35,7 @@ func (l *TaskCreateLogic) TaskCreate(req *types.CreateReq) (resp *types.CreateRe
 	}
 
 	createResp, err := l.svcCtx.TaskRpcClient.CreateTask(l.ctx, &pb.CreateReq{
+		Uid:     ctxdata.GetUidFromCtx(l.ctx),
 		Title:   req.Title,
 		Content: req.Content,
 		Status:  int32(status),

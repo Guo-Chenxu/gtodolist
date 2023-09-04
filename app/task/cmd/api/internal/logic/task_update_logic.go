@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jinzhu/copier"
 	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/ctxdata"
 	"gtodolist/common/vo"
 	"strconv"
 
@@ -35,6 +36,7 @@ func (l *TaskUpdateLogic) TaskUpdate(req *types.UpdateReq) (resp *types.UpdateRe
 
 	updateResp, err := l.svcCtx.TaskRpcClient.UpdateTask(l.ctx, &pb.UpdateReq{
 		Id:      req.Id,
+		Uid:     ctxdata.GetUidFromCtx(l.ctx),
 		Title:   req.Title,
 		Content: req.Title,
 		Status:  int32(status),

@@ -30,7 +30,7 @@ func NewUpdateTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
-	// 先根据 id 查询看是否存在该任务
+	// 先根据 id 查询该用户是否存在该任务
 	id, err := strconv.Atoi(in.Id)
 	if err != nil {
 		return nil, errors.Wrap(vo.ErrRequestParamError, "任务id错误")
@@ -39,6 +39,10 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 	task, err := l.svcCtx.TaskModel.FindOne(l.ctx, int64(id))
 	if err != nil {
 		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
+	}
+
+	if task.Uid != in.Uid {
+		return nil, errors.Wrap(vo.ErrRequestParamError, "没有这条任务信息")
 	}
 
 	// 修改任务
