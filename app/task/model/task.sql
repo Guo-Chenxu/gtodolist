@@ -17,8 +17,7 @@ CREATE TABLE `task`
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `idx_tasks_deleted_at` (`deleted_at`) USING BTREE,
     INDEX `idx_tasks_title` (`title`) USING BTREE,
-    INDEX `fk_tasks_user` (`uid`) USING BTREE,
-    CONSTRAINT `fk_tasks_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    INDEX `idx_tasks_user` (`uid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8

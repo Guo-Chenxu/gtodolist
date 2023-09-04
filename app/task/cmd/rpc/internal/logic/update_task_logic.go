@@ -51,6 +51,7 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 			String: in.Content,
 			Valid:  true,
 		},
+		CreatedAt: task.CreatedAt,
 		StartTime: time.Now(),
 	}
 	err = l.svcCtx.TaskModel.Update(l.ctx, nil, task)
