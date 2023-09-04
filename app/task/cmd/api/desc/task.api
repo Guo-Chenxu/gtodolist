@@ -1,0 +1,146 @@
+syntax = "v1"
+
+info(
+	title: "Task API"
+	desc: "API for task"
+	author: "GuoChenxu"
+	email: "2269409349@qq.com"
+	version: "1.0"
+)
+
+// task_create
+type (
+	CreateReq {
+		Title   string `form:"title"`
+		Content string `form:"content"`
+		Status  string `form:"status"`
+	}
+
+	CreateResp {
+		Status  int    `json:"status"`
+		Data    string `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+type Task {
+	Id         int64  `json:"id"`
+	Title      string `json:"title"`
+	Content    string `json:"content"`
+	View       int    `json:"view"`
+	Status     int    `json:"status"`
+	Create_at  int64  `json:"create_at"`
+	Start_time int64  `json:"start_time"`
+	End_time   int64  `json:"end_time"`
+}
+
+// task_list
+type (
+	ListReq {
+		Limit string `form:"limit"`
+		Start string `form:"start"`
+	}
+
+	Data {
+		Task  []Task `json:"item"`
+		Total int    `json:"total"`
+	}
+
+	ListResp {
+		Status  int    `json:"status"`
+		Data    Data   `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// task_show
+type (
+	ShowReq {
+		Id int64 `form:"id"`
+	}
+
+	ShowResp {
+		Status  int    `json:"status"`
+		Data    Task   `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// task_update
+type (
+	UpdateReq {
+		Id      string `form:"id"`
+		Title   string `form:"title"`
+		Content string `form:"content"`
+		Status  string `form:"status"`
+	}
+
+	UpdateResp {
+		Status  int    `json:"status"`
+		Data    string `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// task_search
+type (
+	SearchReq {
+		Info string `form:"info"`
+	}
+
+	SearchResp {
+		Status  int    `json:"status"`
+		Data    Data   `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+// task_delete
+type (
+	DeleteReq {
+		Id string `form:"id"`
+	}
+
+	DeleteResp {
+		Status  int    `json:"status"`
+		Data    string `json:"data"`
+		Message string `json:"msg"`
+		Error   string `json:"error"`
+	}
+)
+
+@server(
+	prefix: api/v1
+	jwt: JwtAuth
+)
+
+service user {
+	@doc "task_create"
+	@handler task_create
+	post /task_create (CreateReq) returns (CreateResp)
+
+	@doc "task_list"
+	@handler task_list
+	get /task_list (ListReq) returns (ListResp)
+
+	@doc "task_show"
+	@handler task_show
+	get /task_show (ShowReq) returns (ShowResp)
+
+	@doc "task_update"
+	@handler task_update
+	post /task_update (UpdateReq) returns (UpdateResp)
+
+	@doc "task_search"
+	@handler task_search
+	post /task_search (SearchReq) returns (SearchResp)
+
+	@doc "task_delete"
+	@handler task_delete
+	post /task_delete (DeleteReq) returns (DeleteResp)
+}
