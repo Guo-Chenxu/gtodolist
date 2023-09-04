@@ -42,7 +42,7 @@ func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
 
 	err := l.svcCtx.TaskModel.Insert(l.ctx, nil, task)
 	if err != nil {
-		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
+		return nil, errors.Wrap(vo.ErrDBerror, "数据库插入出错")
 	}
 
 	return &pb.CreateResp{

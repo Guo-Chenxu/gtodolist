@@ -37,7 +37,7 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 	}
 
 	task, err := l.svcCtx.TaskModel.FindOne(l.ctx, int64(id))
-	if err != nil {
+	if err != nil && err != model.ErrNotFound {
 		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
 	}
 
