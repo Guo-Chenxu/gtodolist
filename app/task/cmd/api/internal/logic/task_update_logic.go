@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/vo"
+	"strconv"
 
 	"gtodolist/app/task/cmd/api/internal/svc"
 	"gtodolist/app/task/cmd/api/internal/types"
@@ -9,22 +13,41 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Task_updateLogic struct {
+type TaskUpdateLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTask_updateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Task_updateLogic {
-	return &Task_updateLogic{
+func NewTaskUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TaskUpdateLogic {
+	return &TaskUpdateLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *Task_updateLogic) Task_update(req *types.UpdateReq) (resp *types.UpdateResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *TaskUpdateLogic) TaskUpdate(req *types.UpdateReq) (resp *types.UpdateResp, err error) {
+	status, err := strconv.Atoi(req.Status)
+	if err != nil {
+		status = 1
+	}
 
-	return
+	updateResp, err := l.svcCtx.TaskRpcClient.UpdateTask(l.ctx, &pb.UpdateReq{
+		Id:      req.Id,
+		Title:   req.Title,
+		Content: req.Title,
+		Status:  int32(status),
+	})
+	if err != nil {
+		return &types.UpdateResp{
+			Status:  int(vo.ErrServerCommonError.GetErrCode()),
+			Message: err.Error(),
+			Error:   err.Error(),
+		}, nil
+	}
+
+	resp = &types.UpdateResp{}
+	_ = copier.Copy(resp, updateResp)
+	return resp, err
 }

@@ -29,7 +29,7 @@ type (
 	UpdateResp = pb.UpdateResp
 
 	Taskrpc interface {
-		CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateReq, error)
+		CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error)
 		ListTask(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListResp, error)
 		ShowTask(ctx context.Context, in *ShowReq, opts ...grpc.CallOption) (*ShowResp, error)
 		UpdateTask(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
@@ -48,7 +48,7 @@ func NewTaskrpc(cli zrpc.Client) Taskrpc {
 	}
 }
 
-func (m *defaultTaskrpc) CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateReq, error) {
+func (m *defaultTaskrpc) CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error) {
 	client := pb.NewTaskrpcClient(m.cli.Conn())
 	return client.CreateTask(ctx, in, opts...)
 }

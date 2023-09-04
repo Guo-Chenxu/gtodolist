@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/vo"
+	"strconv"
 
 	"gtodolist/app/task/cmd/api/internal/svc"
 	"gtodolist/app/task/cmd/api/internal/types"
@@ -9,22 +13,41 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Task_createLogic struct {
+type TaskCreateLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTask_createLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Task_createLogic {
-	return &Task_createLogic{
+func NewTaskCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TaskCreateLogic {
+	return &TaskCreateLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *Task_createLogic) Task_create(req *types.CreateReq) (resp *types.CreateResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *TaskCreateLogic) TaskCreate(req *types.CreateReq) (resp *types.CreateResp, err error) {
+	status, err := strconv.Atoi(req.Status)
+	if err != nil {
+		status = 1
+	}
 
-	return
+	createResp, err := l.svcCtx.TaskRpcClient.CreateTask(l.ctx, &pb.CreateReq{
+		Title:   req.Title,
+		Content: req.Content,
+		Status:  int32(status),
+	})
+
+	if err != nil {
+		return &types.CreateResp{
+			Status:  int(vo.ErrServerCommonError.GetErrCode()),
+			Message: err.Error(),
+			Error:   err.Error(),
+		}, nil
+	}
+
+	resp = &types.CreateResp{}
+	_ = copier.Copy(resp, createResp)
+	return resp, err
 }

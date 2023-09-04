@@ -9,7 +9,7 @@ import (
 	"gtodolist/app/task/cmd/api/internal/types"
 )
 
-func task_deleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func TaskDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.DeleteReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +17,8 @@ func task_deleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewTask_deleteLogic(r.Context(), svcCtx)
-		resp, err := l.Task_delete(&req)
+		l := logic.NewTaskDeleteLogic(r.Context(), svcCtx)
+		resp, err := l.TaskDelete(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

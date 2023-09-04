@@ -15,32 +15,32 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/task_create",
-				Handler: task_createHandler(serverCtx),
+				Handler: TaskCreateHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/task_list",
-				Handler: task_listHandler(serverCtx),
+				Handler: TaskListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/task_show",
-				Handler: task_showHandler(serverCtx),
+				Handler: TaskShowHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/task_update",
-				Handler: task_updateHandler(serverCtx),
+				Handler: TaskUpdateHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/task_search",
-				Handler: task_searchHandler(serverCtx),
+				Handler: TaskSearchHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/task_delete",
-				Handler: task_deleteHandler(serverCtx),
+				Handler: TaskDeleteHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),

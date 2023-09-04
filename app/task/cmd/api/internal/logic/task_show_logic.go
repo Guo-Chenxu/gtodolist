@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Task_showLogic struct {
+type TaskShowLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTask_showLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Task_showLogic {
-	return &Task_showLogic{
+func NewTaskShowLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TaskShowLogic {
+	return &TaskShowLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *Task_showLogic) Task_show(req *types.ShowReq) (resp *types.ShowResp, err error) {
+func (l *TaskShowLogic) TaskShow(req *types.ShowReq) (resp *types.ShowResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

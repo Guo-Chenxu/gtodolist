@@ -22,7 +22,7 @@ func NewTaskrpcServer(svcCtx *svc.ServiceContext) *TaskrpcServer {
 	}
 }
 
-func (s *TaskrpcServer) CreateTask(ctx context.Context, in *pb.CreateReq) (*pb.CreateReq, error) {
+func (s *TaskrpcServer) CreateTask(ctx context.Context, in *pb.CreateReq) (*pb.CreateResp, error) {
 	l := logic.NewCreateTaskLogic(ctx, s.svcCtx)
 	return l.CreateTask(in)
 }

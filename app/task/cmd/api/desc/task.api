@@ -121,26 +121,26 @@ type (
 
 service user {
 	@doc "task_create"
-	@handler task_create
+	@handler TaskCreate
 	post /task_create (CreateReq) returns (CreateResp)
 
 	@doc "task_list"
-	@handler task_list
+	@handler TaskList
 	get /task_list (ListReq) returns (ListResp)
 
 	@doc "task_show"
-	@handler task_show
+	@handler TaskShow
 	get /task_show (ShowReq) returns (ShowResp)
 
 	@doc "task_update"
-	@handler task_update
+	@handler TaskUpdate
 	post /task_update (UpdateReq) returns (UpdateResp)
 
 	@doc "task_search"
-	@handler task_search
+	@handler TaskSearch
 	post /task_search (SearchReq) returns (SearchResp)
 
 	@doc "task_delete"
-	@handler task_delete
+	@handler TaskDelete
 	post /task_delete (DeleteReq) returns (DeleteResp)
 }

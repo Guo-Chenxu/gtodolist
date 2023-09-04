@@ -2,6 +2,12 @@ package logic
 
 import (
 	"context"
+	"database/sql"
+	"github.com/pkg/errors"
+	"gtodolist/app/task/model"
+	"gtodolist/common/ctxdata"
+	"gtodolist/common/vo"
+	"time"
 
 	"gtodolist/app/task/cmd/rpc/internal/svc"
 	"gtodolist/app/task/cmd/rpc/pb"
@@ -23,8 +29,27 @@ func NewCreateTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 	}
 }
 
-func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateReq, error) {
-	// todo: add your logic here and delete this line
+func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
+	uid := ctxdata.GetUidFromCtx(l.ctx)
+	task := &model.Task{
+		Uid:    uid,
+		Title:  in.Title,
+		Status: int64(in.Status),
+		Content: sql.NullString{
+			String: in.Content,
+			Valid:  true,
+		},
+		StartTime: time.Now(),
+	}
 
-	return &pb.CreateReq{}, nil
+	err := l.svcCtx.TaskModel.Insert(l.ctx, nil, task)
+	if err != nil {
+		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
+	}
+
+	return &pb.CreateResp{
+		Status:  vo.OK,
+		Data:    vo.SUCCESS,
+		Message: vo.SUCCESS,
+	}, nil
 }

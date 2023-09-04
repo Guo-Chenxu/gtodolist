@@ -9,7 +9,7 @@ import (
 	"gtodolist/app/task/cmd/api/internal/types"
 )
 
-func task_showHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func TaskShowHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ShowReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +17,8 @@ func task_showHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewTask_showLogic(r.Context(), svcCtx)
-		resp, err := l.Task_show(&req)
+		l := logic.NewTaskShowLogic(r.Context(), svcCtx)
+		resp, err := l.TaskShow(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

@@ -31,7 +31,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TaskrpcClient interface {
-	CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateReq, error)
+	CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error)
 	ListTask(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListResp, error)
 	ShowTask(ctx context.Context, in *ShowReq, opts ...grpc.CallOption) (*ShowResp, error)
 	UpdateTask(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
@@ -47,8 +47,8 @@ func NewTaskrpcClient(cc grpc.ClientConnInterface) TaskrpcClient {
 	return &taskrpcClient{cc}
 }
 
-func (c *taskrpcClient) CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateReq, error) {
-	out := new(CreateReq)
+func (c *taskrpcClient) CreateTask(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateResp, error) {
+	out := new(CreateResp)
 	err := c.cc.Invoke(ctx, Taskrpc_CreateTask_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c *taskrpcClient) DeleteTask(ctx context.Context, in *DeleteReq, opts ...g
 // All implementations must embed UnimplementedTaskrpcServer
 // for forward compatibility
 type TaskrpcServer interface {
-	CreateTask(context.Context, *CreateReq) (*CreateReq, error)
+	CreateTask(context.Context, *CreateReq) (*CreateResp, error)
 	ListTask(context.Context, *ListReq) (*ListResp, error)
 	ShowTask(context.Context, *ShowReq) (*ShowResp, error)
 	UpdateTask(context.Context, *UpdateReq) (*UpdateResp, error)
@@ -118,7 +118,7 @@ type TaskrpcServer interface {
 type UnimplementedTaskrpcServer struct {
 }
 
-func (UnimplementedTaskrpcServer) CreateTask(context.Context, *CreateReq) (*CreateReq, error) {
+func (UnimplementedTaskrpcServer) CreateTask(context.Context, *CreateReq) (*CreateResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
 }
 func (UnimplementedTaskrpcServer) ListTask(context.Context, *ListReq) (*ListResp, error) {
