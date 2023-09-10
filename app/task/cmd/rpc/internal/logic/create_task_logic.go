@@ -29,6 +29,9 @@ func NewCreateTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
+	// 删除list缓存
+	NewListTaskLogic(l.ctx, l.svcCtx).DeleteListCache(in.Uid)
+
 	task := &model.Task{
 		Uid:    in.Uid,
 		Title:  in.Title,
@@ -39,7 +42,6 @@ func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
 		},
 		StartTime: time.Now(),
 	}
-
 	err := l.svcCtx.TaskModel.Insert(l.ctx, nil, task)
 	if err != nil {
 		return nil, errors.Wrap(vo.ErrDBerror, "数据库插入出错")

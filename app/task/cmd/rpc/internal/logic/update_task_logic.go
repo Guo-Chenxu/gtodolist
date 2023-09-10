@@ -45,6 +45,9 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 		return nil, errors.Wrap(vo.ErrRequestParamError, "没有这条任务信息")
 	}
 
+	// 删除list缓存
+	NewListTaskLogic(l.ctx, l.svcCtx).DeleteListCache(in.Uid)
+
 	// 修改任务
 	task = &model.Task{
 		Id:        task.Id,

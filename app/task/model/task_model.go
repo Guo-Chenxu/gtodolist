@@ -37,8 +37,7 @@ func (m *defaultTaskModel) customCacheKeys(data *Task) []string {
 		return []string{}
 	}
 
-	// todo: 这里会缓存不一致, 无法删除旧缓存
 	return []string{
-		cacheGtodolistTaskListPrefix + strconv.FormatInt(data.Uid, 10),
+		cacheGtodolistTaskListPrefix + strconv.FormatInt(data.Uid, 10) + ":*",
 	}
 }
