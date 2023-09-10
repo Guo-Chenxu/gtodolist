@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 var _ TaskModel = (*customTaskModel)(nil)
@@ -20,6 +21,7 @@ type (
 	}
 
 	customTaskLogicModel interface {
+		myTaskModel
 	}
 )
 
@@ -34,5 +36,9 @@ func (m *defaultTaskModel) customCacheKeys(data *Task) []string {
 	if data == nil {
 		return []string{}
 	}
-	return []string{}
+
+	// todo: 这里会缓存不一致, 无法删除旧缓存
+	return []string{
+		cacheGtodolistTaskListPrefix + strconv.FormatInt(data.Uid, 10),
+	}
 }

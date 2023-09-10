@@ -15,14 +15,14 @@ type CreateResp struct {
 }
 
 type Task struct {
-	Id         int64  `json:"id"`
-	Title      string `json:"title"`
-	Content    string `json:"content"`
-	View       int    `json:"view"`
-	Status     int    `json:"status"`
-	Create_at  int64  `json:"create_at"`
-	Start_time int64  `json:"start_time"`
-	End_time   int64  `json:"end_time"`
+	Id        int64  `json:"id"`
+	Title     string `json:"title"`
+	Content   string `json:"content"`
+	View      int    `json:"view"`
+	Status    int    `json:"status"`
+	CreateAt  int64  `json:"create_at"`
+	StartTime int64  `json:"start_time"`
+	EndTime   int64  `json:"end_time"`
 }
 
 type ListReq struct {

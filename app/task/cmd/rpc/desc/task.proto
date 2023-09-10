@@ -36,8 +36,8 @@ message Data{
 
 message ListReq{
   int64 Uid = 1;
-  string Limit = 2;
-  string start = 3;
+  int64 Limit = 2;
+  int64 start = 3;
 }
 
 message ListResp{

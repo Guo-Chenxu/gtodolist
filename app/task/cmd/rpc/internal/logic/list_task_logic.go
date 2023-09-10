@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"github.com/pkg/errors"
+	"gtodolist/common/vo"
 
 	"gtodolist/app/task/cmd/rpc/internal/svc"
 	"gtodolist/app/task/cmd/rpc/pb"
@@ -24,7 +26,31 @@ func NewListTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListTask
 }
 
 func (l *ListTaskLogic) ListTask(in *pb.ListReq) (*pb.ListResp, error) {
-	// todo: add your logic here and delete this line
+	tasks, err := l.svcCtx.TaskModel.List(l.ctx, in.Uid, in.Start, in.Limit)
+	if err != nil {
+		return nil, errors.Wrap(vo.ErrDBerror, "数据库查询出错")
+	}
 
-	return &pb.ListResp{}, nil
+	taskResp := make([]*pb.Task, len(tasks))
+	for i := 0; i < len(tasks); i++ {
+		task := tasks[i]
+		taskResp[i] = &pb.Task{
+			Id:        task.Id,
+			Title:     task.Title,
+			Content:   task.Content.String,
+			Status:    int32(task.Status),
+			CreateAt:  task.CreatedAt.Unix(),
+			StartTime: task.StartTime.Unix(),
+			EndTime:   task.EndTime.Time.Unix(),
+		}
+	}
+
+	return &pb.ListResp{
+		Status: vo.OK,
+		Data: &pb.Data{
+			Task:  taskResp,
+			Total: int64(len(tasks)),
+		},
+		Message: vo.SUCCESS,
+	}, nil
 }
