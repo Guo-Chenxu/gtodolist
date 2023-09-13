@@ -27,6 +27,8 @@ jobs:
         mkdir tmp
         go build -o ./cmd/user-api ./app/user/cmd/api/user.go
         go build -o ./cmd/user-rpc ./app/user/cmd/rpc/user.go
+        go build -o ./cmd/task-api ./app/task/cmd/api/task.go
+        go build -o ./cmd/task-rpc ./app/task/cmd/rpc/task.go
         tar -zcvf ./cmd.tar.gz ./cmd
     
     - name: Deploy To Server
