@@ -23,16 +23,16 @@ jobs:
       with:
         go-version: '1.20'
 
-    # 编译
-    - name: Build
-      run: |
-        go mod tidy 
-        mkdir tmp
-        go build -o ./cmd/user-api ./app/user/cmd/api/user.go
-        go build -o ./cmd/user-rpc ./app/user/cmd/rpc/user.go
-        go build -o ./cmd/task-api ./app/task/cmd/api/task.go
-        go build -o ./cmd/task-rpc ./app/task/cmd/rpc/task.go
-        tar -zcvf ./cmd.tar.gz ./cmd
+#    # 编译
+#    - name: Build
+#      run: |
+#        go mod tidy
+#        mkdir tmp
+#        go build -o ./cmd/user-api ./app/user/cmd/api/user.go
+#        go build -o ./cmd/user-rpc ./app/user/cmd/rpc/user.go
+#        go build -o ./cmd/task-api ./app/task/cmd/api/task.go
+#        go build -o ./cmd/task-rpc ./app/task/cmd/rpc/task.go
+#        tar -zcvf ./cmd.tar.gz ./cmd
 
 #    # 使用 scp 把文件传输到服务器上
 #    - name: Transfer to server
@@ -55,8 +55,8 @@ jobs:
         PASSWORD:  ${{ secrets.PASSWORD }}
 
         TARGET: /home/guochenxu/gtodolist/go/
-        SOURCE: ./cmd.tar.gz
-        ARGS: -avuz --progress --delete
+        SOURCE: ./
+        ARGS: -avuz --progress --delete --exclude=./.git/
 
         PRE_SCRIPT: |
           echo start at:
