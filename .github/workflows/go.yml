@@ -34,16 +34,34 @@ jobs:
         go build -o ./cmd/task-rpc ./app/task/cmd/rpc/task.go
         tar -zcvf ./cmd.tar.gz ./cmd
 
-    # 把文件传输到服务器上
+#    # 使用 scp 把文件传输到服务器上
+#    - name: Transfer to server
+#      uses: appleboy/scp-action@v0.1.4
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        password: ${{ secrets.PASSWORD }}
+#        port: ${{ secrets.PORT }}
+#        source: "./cmd.tar.gz"
+#        target: /home/guochenxu/gtodolist/go/
+
+    # 使用 rsync 把文件传输到服务器上
     - name: Transfer to server
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        source: "./cmd.tar.gz"
-        target: /home/guochenxu/gtodolist/go/
+      uses: up9cloud/action-rsync@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USER: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        PASSWORD:  ${{ secrets.PASSWORD }}
+
+        TARGET: /home/guochenxu/gtodolist/go/
+        SOURCE: ./cmd.tar.gz
+        ARGS: -avuz --progress --delete
+
+        PRE_SCRIPT: |
+          echo start at:
+          date -u
+        POST_SCRIPT: "echo done at: && date -u"
 
     # 远程执行命令
     - name: Run Service On Server
