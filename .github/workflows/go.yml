@@ -12,15 +12,18 @@ on:
 jobs:
 
   build-and-deploy:
+    # 设置容器环境
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
+    # 设置 GO 版本
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: '1.20'
 
+    # 编译
     - name: Build
       run: |
         go mod tidy 
@@ -30,19 +33,26 @@ jobs:
         go build -o ./cmd/task-api ./app/task/cmd/api/task.go
         go build -o ./cmd/task-rpc ./app/task/cmd/rpc/task.go
         tar -zcvf ./cmd.tar.gz ./cmd
-    
-    - name: Deploy To Server
-      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+
+    # 把文件传输到服务器上
+    - name: Transfer to server
+      uses: appleboy/scp-action@v0.1.4
       with:
-        host: ${{ secrets.HOST }} 
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: "./cmd.tar.gz"
+        target: /home/guochenxu/gtodolist/go/
+
+    # 远程执行命令
+    - name: Run Service On Server
+      uses: fifsky/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
         port: ${{ secrets.PORT }}
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
-        first_ssh: |
-          cd /home/guochenxu/gtodolist/go
-          if [ -f "./cmd.tar.gz" ]; then rm ./cmd.tar.gz; fi
-        scp: |
-          './cmd.tar.gz' => /home/guochenxu/gtodolist/go/
-        last_ssh: |
+        command: |
           cd /home/guochenxu/gtodolist/go
           ./start.sh
