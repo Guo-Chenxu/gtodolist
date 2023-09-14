@@ -26,8 +26,8 @@ type Task struct {
 }
 
 type ListReq struct {
-	Limit string `form:"limit"`
-	Start string `form:"start"`
+	Limit string `form:"limit,optional"`
+	Start string `form:"start,optional"`
 }
 
 type Data struct {
