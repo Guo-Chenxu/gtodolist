@@ -74,3 +74,4 @@ jobs:
         command: |
           cd /home/guochenxu/gtodolist/go
           ./start.sh
+          logout
