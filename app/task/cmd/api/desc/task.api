@@ -119,7 +119,7 @@ type (
 	jwt: JwtAuth
 )
 
-service user {
+service task {
 	@doc "task_create"
 	@handler TaskCreate
 	post /task_create (CreateReq) returns (CreateResp)
