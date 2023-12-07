@@ -21,7 +21,7 @@ data/*
 # *.yaml
 *.zip
 
-
+logs/
 *.log
 .idea/dataSources.xml
 .idea/gtodolist.iml
