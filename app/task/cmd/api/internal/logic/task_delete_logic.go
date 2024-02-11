@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"github.com/jinzhu/copier"
+	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/ctxdata"
+	"gtodolist/common/vo"
 
 	"gtodolist/app/task/cmd/api/internal/svc"
 	"gtodolist/app/task/cmd/api/internal/types"
@@ -24,7 +28,19 @@ func NewTaskDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TaskDe
 }
 
 func (l *TaskDeleteLogic) TaskDelete(req *types.DeleteReq) (resp *types.DeleteResp, err error) {
-	// todo: add your logic here and delete this line
+	deleteResp, err := l.svcCtx.TaskRpcClient.DeleteTask(l.ctx, &pb.DeleteReq{
+		Uid: ctxdata.GetUidFromCtx(l.ctx),
+		Id:  req.Id,
+	})
+	if err != nil {
+		return &types.DeleteResp{
+			Status:  int(vo.ErrServerCommonError.GetErrCode()),
+			Message: err.Error(),
+			Error:   err.Error(),
+		}, nil
+	}
 
-	return
+	resp = &types.DeleteResp{}
+	_ = copier.Copy(resp, deleteResp)
+	return resp, err
 }
