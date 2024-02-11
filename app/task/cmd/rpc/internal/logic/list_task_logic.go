@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"fmt"
 	"github.com/pkg/errors"
 	"gtodolist/common/vo"
 
@@ -54,15 +53,4 @@ func (l *ListTaskLogic) ListTask(in *pb.ListReq) (*pb.ListResp, error) {
 		},
 		Message: vo.SUCCESS,
 	}, nil
-}
-
-// DeleteListCache 删除 list 缓存
-func (l *ListTaskLogic) DeleteListCache(uid int64) {
-	prefix := "cache:gtodolist:task:list:"
-	listKey := fmt.Sprintf("%s%v:*", prefix, uid)
-	keys, _, _ := l.svcCtx.RedisClient.Scan(0, listKey, 0)
-
-	for _, key := range keys {
-		_, _ = l.svcCtx.RedisClient.Del(key)
-	}
 }

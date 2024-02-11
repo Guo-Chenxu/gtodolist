@@ -46,7 +46,7 @@ func (l *UpdateTaskLogic) UpdateTask(in *pb.UpdateReq) (*pb.UpdateResp, error) {
 	}
 
 	// 删除list缓存
-	NewListTaskLogic(l.ctx, l.svcCtx).DeleteListCache(in.Uid)
+	DeleteListCache(l.svcCtx.RedisClient, in.Uid)
 
 	// 修改任务
 	task = &model.Task{

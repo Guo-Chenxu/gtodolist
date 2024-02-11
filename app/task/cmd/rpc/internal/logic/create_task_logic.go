@@ -30,7 +30,7 @@ func NewCreateTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateTaskLogic) CreateTask(in *pb.CreateReq) (*pb.CreateResp, error) {
 	// 删除list缓存
-	NewListTaskLogic(l.ctx, l.svcCtx).DeleteListCache(in.Uid)
+	DeleteListCache(l.svcCtx.RedisClient, in.Uid)
 
 	task := &model.Task{
 		Uid:    in.Uid,
