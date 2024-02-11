@@ -2,12 +2,11 @@ package logic
 
 import (
 	"context"
+	"github.com/SpectatorNan/gorm-zero/gormc"
 	"github.com/pkg/errors"
-	"strconv"
-	"time"
-
 	"gtodolist/app/task/cmd/rpc/internal/svc"
 	"gtodolist/app/task/cmd/rpc/pb"
+	"strconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,16 +30,13 @@ func (l *DeleteTaskLogic) DeleteTask(in *pb.DeleteReq) (*pb.DeleteResp, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "转换任务id失败, 请传入合法id")
 	}
+
 	DeleteListCache(l.svcCtx.RedisClient, in.Uid)
 
-	go func() {
-		l.Logger.Infof("删除任务缓存成功，uid为%d", in.Uid, "开始异步调用删除数据库")
-		time.Sleep(time.Hour * 1)
-		err := l.svcCtx.TaskModel.Delete(l.ctx, nil, tid)
-		if err != nil {
-			return
-		}
-	}()
+	err = l.svcCtx.TaskModel.Delete(l.ctx, nil, tid)
+	if err != nil && err != gormc.ErrNotFound {
+		return nil, errors.Wrap(err, "删除任务失败")
+	}
 
 	return &pb.DeleteResp{
 		Status:  0,
