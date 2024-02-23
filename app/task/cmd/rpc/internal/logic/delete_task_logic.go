@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 	"gtodolist/app/task/cmd/rpc/internal/svc"
 	"gtodolist/app/task/cmd/rpc/pb"
+	"gtodolist/common/vo"
 	"strconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -39,7 +40,7 @@ func (l *DeleteTaskLogic) DeleteTask(in *pb.DeleteReq) (*pb.DeleteResp, error) {
 	}
 
 	return &pb.DeleteResp{
-		Status:  0,
+		Status:  vo.OK,
 		Message: "删除成功",
 	}, nil
 }
