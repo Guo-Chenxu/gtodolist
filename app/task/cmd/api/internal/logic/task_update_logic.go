@@ -38,7 +38,7 @@ func (l *TaskUpdateLogic) TaskUpdate(req *types.UpdateReq) (resp *types.UpdateRe
 		Id:      req.Id,
 		Uid:     ctxdata.GetUidFromCtx(l.ctx),
 		Title:   req.Title,
-		Content: req.Title,
+		Content: req.Content,
 		Status:  int32(status),
 	})
 	if err != nil {
