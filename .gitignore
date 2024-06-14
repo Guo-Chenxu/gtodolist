@@ -26,3 +26,5 @@ logs/
 .idea/dataSources.xml
 .idea/gtodolist.iml
 .idea/vcs.xml
+
+.history/
